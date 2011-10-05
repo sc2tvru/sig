@@ -1,0 +1,270 @@
+body {
+	background-position: 0% 0%;
+	background-image: url(img/master/background_main.jpg);
+	background-repeat: no-repeat;
+	background-position: top center;
+	color: #FFFFFF;
+	margin: 0px;
+	text-align: center;
+}
+div.body {
+	width: 630px;
+	margin-top: 330px;
+	border: 1px solid red;
+}
+div.scroll-pane {
+	width: 430px;
+	height: 350px;
+	overflow: auto;
+	margin: auto;
+}
+div.scroll-pane img {
+	padding: 13px 13px 8px 13px;
+	margin: 0px;
+}
+div.scroll-pane img:hover {
+	cursor: pointer;
+	padding: 13px 13px 8px 13px;
+	margin: 0px;
+	background-image: url(img/master/selection_border.png);
+	background-repeat: no-repeat;
+}
+.icon {
+	background-position: 0% 50%;
+	padding-left: 24px;
+	background-repeat: no-repeat;
+	margin: auto;
+}
+#bnet-icon {
+	width: 400px;
+	background-image: url(img/master/icon_bnet.png);
+}
+#sig-back-preview {
+	margin-top: 35px;
+	padding: 22px 67px 23px 67px;
+	background-image: url(img/master/selected_now.png);
+	background-repeat: no-repeat;
+	border: 0;
+}
+a.next-step {
+	padding: 27px 55px 25px 37px;
+	color: white;
+	font: bold 12px Tahoma;
+	text-decoration: none;
+	background-image: url(img/master/button_next.png);
+	background-repeat: no-repeat;
+	text-transform: uppercase;
+}
+a.next-step:hover {
+	background-image: url(img/master/button_next_hot.png);
+	background-repeat: no-repeat;
+}
+a.prev-step {
+	padding: 27px 39px 33px 60px;
+	margin: 0;
+	color: white;
+	font: bold 12px Tahoma;
+	text-decoration: none;
+	background-image: url(img/master/button_prev.png);
+	background-repeat: no-repeat;
+	text-transform: uppercase;
+}
+a.prev-step:hover {
+	background-image: url(img/master/button_prev_hot.png);
+	background-repeat: no-repeat;
+}
+a.start-again {
+	padding: 27px 39px 33px 60px;
+	color: white;
+	font: bold 12px Tahoma;
+	text-decoration: none;
+	background-image: url(img/master/button_refresh.png);
+	background-repeat: no-repeat;
+	text-transform: uppercase;
+	margin: 40px auto;
+}
+a.start-again:hover {
+	background-image: url(img/master/button_refresh_hot.png);
+	background-repeat: no-repeat;
+}
+ul.race-tabs {
+	margin: 0px;
+	margin-top: 5px;
+	margin-bottom: 6px;
+}
+ul.race-tabs li {
+	list-style: none;
+	display: inline;
+}
+ul.race-tabs li span {
+	background-color: #464c54;
+	color: #ffebb5;
+	padding: 8px 14px 8px 14px;
+	text-decoration: none;
+	font-size: 9px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	text-transform: uppercase;
+	border: 1px solid #464c54;
+}
+ul.race-tabs li span:hover {
+	background-color: #2f343a;
+	border-color: #2f343a;
+	cursor: pointer;
+}
+ul.race-tabs li span.active-race-tab {
+	background-color: #ffffff;
+	color: #282e32;
+	border: 1px solid #464c54;
+	border-bottom: 1px solid #ffffff;
+}
+.content {
+	border: 1px solid #464c54;
+	margin: auto;
+	padding: 5px;
+	width: 450px;
+}
+#protoss-content, #zerg-content, #random-content{
+	display:none;
+}
+#watch-step {
+	text-align: right;
+	display: block;
+	width: 780px;
+	margin: 134px auto 0px;
+}
+#step1 {
+	display: block;
+	width: 690px;
+	margin: 100px auto 0;
+}
+#step2, #step3, #step4 {
+	display: none;
+	width: 690px;
+	margin: 100px auto 0;
+}
+#step4 {
+	margin-bottom: 350px;
+}
+#sig-preview {
+	display: none;
+	margin: 30px auto;
+}
+img.hint {
+	margin-bottom: 10px;
+}
+div.copy {
+	width: 99%;
+	text-align: center;
+	font-size: 10pt;
+	color: #000000; 
+}
+div.copy a {
+	color: #000000;
+	text-decoration: underline;
+}
+div.copy a:hover {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+#spacer1 {
+	height: 375px;
+}
+#step1 .btn-prevnext {
+	margin: 0px 0 0 190px;
+}
+#step1 .btn-prevnext div.copy {
+	width: 335px;
+	margin: 0px 23px 0px 0px;
+	float: left;
+}
+#step1 .btn-prevnext a.next-step {
+	float: left;
+}
+#step2 .btn-prevnext {
+	margin: 35px 0 0;
+}
+#step2 .btn-prevnext a.prev-step, .btn-prevnext div.copy {
+	float: left;
+}
+#step2 .btn-prevnext div.copy {
+	width: 402px;
+}
+#step2 .btn-prevnext a.next-step {
+	float: left;
+}
+
+#stats-type-box {
+	width: 300px;
+	margin-left: 35px;
+	display: block;
+	float: left;
+}
+#ladder-icon {
+	width: 160px;
+	background-image: url(img/master/icon_ladder.png);
+}
+#statsType {
+	width: 140px;
+}
+#lang-box {
+	width: 300px;
+	margin-right: 35px;
+	display: block;
+	float: right;
+}
+#lang-icon {
+	width: 160px;
+	background-image: url(img/master/icon_lang.png);
+}
+#language {
+	width: 140px;
+}
+#id-box {
+	width: 300px;
+	margin: 35px 35px 0 0;
+	display: block;
+	float: right;
+}
+#id-icon {
+	width: 60px;
+	background-image: url(img/master/icon_id.png);
+}
+#region-box {
+	width: 300px;
+	margin: 35px 0 0 35px;
+	display: block;
+	float: left;
+}
+#region-icon {
+	width: 160px;
+	background-image: url(img/master/icon_region.png);
+}
+#region {
+	width: 140px;
+}
+#spacer3 {
+	height: 350px;
+	width: 400px;
+}
+#step3 .btn-prevnext {
+	/*margin: 0;*/
+	margin-top: 270px;
+}
+#step3 .btn-prevnext a.prev-step, .btn-prevnext div.copy {
+	float: left;
+}
+#step3 .btn-prevnext div.copy {
+	width: 402px;
+}
+#step3 .btn-prevnext a.next-step {
+	float: left;
+}
+.icon-link {
+	width: 400px;
+	background-image: url(img/master/icon_ready.png);
+}
+#spacer4 {
+	height: 50px;
+}
