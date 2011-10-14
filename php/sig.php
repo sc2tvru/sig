@@ -9,7 +9,7 @@
  * Генерация картинок со статистикой StarCraft 2
  * @author MyIE
  * @author shr, forshr@gmail.com
- * редакция 2011-05-14
+ * редакция 2011-11-14
  *
  */
 // Ачивки
@@ -74,15 +74,17 @@ class Sig {
 		if ( !( $region == 'RU' || $region == 'EU' || $region == 'US' || $region == 'KR' ) ) {
 			$region = false;
 		}
-		$region = false;
+		//$region = false;
+		$region = strtolower( $region );
 		$sigPath = SIG_BASEDIR.$sigId.'.png';
 		
 		require_once 'network.php';
 		
 		$playerAccountUrl = urlencode( $playerAccount );
 		
+		
 		$data = Network::GetHTTPData(
-			"http://eu.battle.net/sc2/en/profile/$playerId/$bnetServerNum/$playerAccountUrl/",
+			"http://$region.battle.net/sc2/en/profile/$playerId/$bnetServerNum/$playerAccountUrl/",
 			'id="portrait',
 			'class="module-right'
 		);
@@ -114,7 +116,7 @@ class Sig {
 		}
 		
 		if ( $characterCode ) {
-			$regionX = 137;
+			$regionX = 133;
 		}
 		else {
 			$regionX = 170;
@@ -196,6 +198,7 @@ class Sig {
 				if ( $match[ 1] [ 2 ] ) {
 					$lose = $match[ 1 ][ 2 ];
 					$playerStats = "$wins / $lose";
+					
 					$playerWinRate = round( $wins*100/( $wins + $lose ) ).' %';
 				}
 				else {
@@ -252,7 +255,7 @@ class Sig {
 			$playerStatsType );
 		
 		if ( $characterCode ) {
-			imagettftext( $templateImg, 8, 0, 195, 31, $textColor, FONT_STATS_RANK,
+			imagettftext( $templateImg, 8, 0, 191, 31, $textColor, FONT_STATS_RANK,
 				' ID: '.$characterCode );
 		}
 
@@ -266,7 +269,7 @@ class Sig {
 		imagecopyresampled( $playerImgResource, $portrait, 237, 12, $portraitX, $portraitY,
 			46, 46, 46, 46 );
 		imagecopyresampled( $playerImgResource, $league, 292, 31, 0, 0, 26, 28, 26, 28);
-		imagecopyresampled( $playerImgResource, $raceTemplateImg, 216, 43, 0, 0, 18, 18,
+		imagecopyresampled( $playerImgResource, $raceTemplateImg, 219, 43, 0, 0, 18, 18,
 			18, 18 );
 		
 		imagepng( $playerImgResource, $sigPath );
