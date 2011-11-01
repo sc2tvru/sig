@@ -70,21 +70,24 @@ class Sig {
 		if ( !( $lang == 'ru' || $lang == 'en' ) ) {
 			$lang = 'ru';
 		}
-
-		if ( !( $region == 'RU' || $region == 'EU' || $region == 'US' || $region == 'KR' ) ) {
+		
+		$bnetSubDomain = 'eu';
+		
+		if ( $region === 'US' || $region === 'KR' ) {
+			$bnetSubDomain = strtolower( $region );
+		}
+		elseif ( $region == 0 ) {
 			$region = false;
 		}
-		//$region = false;
-		$region = strtolower( $region );
+		
 		$sigPath = SIG_BASEDIR.$sigId.'.png';
 		
 		require_once 'network.php';
 		
 		$playerAccountUrl = urlencode( $playerAccount );
 		
-		
 		$data = Network::GetHTTPData(
-			"http://$region.battle.net/sc2/en/profile/$playerId/$bnetServerNum/$playerAccountUrl/",
+			"http://$bnetSubDomain.battle.net/sc2/en/profile/$playerId/$bnetServerNum/$playerAccountUrl/",
 			'id="portrait',
 			'class="module-right'
 		);
@@ -170,10 +173,10 @@ class Sig {
 		if ( $isPlayerHasRank &&
 			preg_match_all( '|<a href="([^"]+)">|si', $tempPlayerData, $match ) ) {
 			$data = Network::GetHTTPData(
-				'http://eu.battle.net'.$match[ 1 ][ 0 ],
+				'http://' . $bnetSubDomain . '.battle.net'.$match[ 1 ][ 0 ],
 				'<head>',
 				'id="current-rank".*?tr class="row2"');
-
+			
 			if ( !$data ) {
 				return false;
 			}
