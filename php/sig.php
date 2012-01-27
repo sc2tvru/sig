@@ -25,7 +25,7 @@ putenv( 'GDFONTPATH=' . realpath( '.' ) );
 if ( !extension_loaded( 'gd' ) ) {
 	exit( 'Sig: image processing library not loaded' );
 }
-		
+
 class Sig {
 	
 	/**
@@ -95,7 +95,7 @@ class Sig {
 		if ( !$data ) {
 			return false;
 		}
-
+		
 		switch( $playerStatsIndex ) {
 			case 0:
 				$playerStatsType = '1v1';
@@ -174,7 +174,7 @@ class Sig {
 			preg_match_all( '|<a href="([^"]+)">|si', $tempPlayerData, $match ) ) {
 			$data = Network::GetHTTPData(
 				'http://' . $bnetSubDomain . '.battle.net'.$match[ 1 ][ 0 ],
-				'<head>',
+				'<head.*>',
 				'id="current-rank".*?tr class="row2"');
 			
 			if ( !$data ) {

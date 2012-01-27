@@ -38,5 +38,22 @@ function phpentities( $text ) {
 	$text = str_replace($search, $replace, $text);
 	return $text;
 }
-
+/*
+function SaveForDebug( $str ) {
+	$logFile = fopen( 'debug.txt', 'a' );
+	
+	if ( flock( $logFile, LOCK_EX | LOCK_NB ) ) {
+		$str = date( 'd M H:i:s', time() )
+			. ' - '. $_SERVER[ 'REMOTE_ADDR' ]
+			. ' - ' . $_SERVER[ 'HTTP_USER_AGENT' ]
+			. ' - ref '. $_SERVER[ 'HTTP_REFERER' ]. "\n" . $str;
+		
+		fwrite( $logFile, $str. "\n\n" );
+		fflush( $logFile );
+		flock( $logFile, LOCK_UN ); 
+	}
+	
+	fclose( $logFile );
+}
+*/
 ?>
