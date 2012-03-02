@@ -27,7 +27,7 @@ define( 'DB_TIME_LIMIT', 4 );
 
 // сброс ошибок в log true
 define( 'LOG_ERRORS', true );
-define( 'ERROR_FILE', SIG_BASEDIR . '/error__h3h5w4hsefsfsg.txt' );
+define( 'ERROR_FILE', SIG_BASEDIR . '/php/error__h3h5w4hsefsfsg.txt' );
 
 error_reporting( E_ALL );
 ?>
