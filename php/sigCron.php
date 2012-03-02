@@ -1,33 +1,20 @@
 <?php
 /**
  * генерация баров по крону
- * редакция от 2011-03-06
- * @author shr, forshr@gmail.com
  */
 
-// кол-во баров для одного запуска
-define( 'NUM_SIG', 8 );
+// берем параметры из базы
+require_once 'config.php';
 
-// лимит на время работы скрипта
-define( 'TIME_LIMIT', 30 );
-
-/**
- * время на сохранение в базе номера следующего бара, с которого начнется генерация
- * бессмысленно делать его меньше времени генерации одного бара, т.к. иначе скрипт все
- * равно не успеет сгенерировать бар
-*/
-define( 'DB_TIME_LIMIT', 4 );
-
-define( START_TIME, getMicroTime() );
+define( 'START_TIME', getMicroTime() );
 
 // время, до которого можно запускать генерацию бара
 define( 'DEADLINE', START_TIME + TIME_LIMIT - DB_TIME_LIMIT );
 
-error_reporting( 0 );
-
-// берем параметры из базы
-require_once 'config.php';
+require_once 'utils.php';
 require_once 'db.php';
+
+$db = new MySqlDb( DB_HOST, DB_NAME, DB_USER, DB_PASSWORD );
 
 // для того, чтобы знать, надо ли начинать следующий заход генерации, 
 // определяем номер бара, с которого начнем
@@ -46,7 +33,7 @@ else {
 	$startNum = intval( $row[ 'value' ] );
 }
 
-// ... и определяем кол-во баров
+// и определяем кол-во баров
 $queryString = 'SELECT COUNT(playerId) as count FROM '.DB_TABLE_PREFIX.'data';
 $queryResult = $db->Query( $queryString );
 
@@ -57,8 +44,9 @@ if ( !$queryResult ) {
 $row = $queryResult->fetch_assoc();
 $totalSigCount = $row[ 'count' ];
 
-if ( $startNum == $totalSigCount ) {
-	$startNum = 0;
+// если номер вышел за границы, начинаем заново
+if ( $startNum >= $totalSigCount || $startNum < 1000 ) {
+	$startNum = 1000;
 }
 
 require_once 'sig.php';
@@ -107,12 +95,13 @@ function SaveNextNum() {
 	$queryString = "UPDATE ".DB_TABLE_PREFIX."options SET value='$startNum'
 		WHERE name='nextSigNum'";
 	$result = $db->Query( $queryString );
-	echo $sigUpdatedCount.' '.date( 'H:i', time() ).' '.$_SERVER[ REMOTE_ADDR ];
+	echo $sigUpdatedCount.' '.date( 'H:i', time() ).' '.$_SERVER[ REMOTE_ADDR ]. 'nextSigNum = '. $startNum;
 }
 
 
 function isTimeEnough() {
-	if ( round( DEADLINE - getMicroTime(), 3 ) > 0 ) {
+	$timeDiff = round( DEADLINE - getMicroTime(), 3 );
+	if ( $timeDiff > 0 ) {
 		return true;
 	}
 	else {

@@ -40,7 +40,7 @@ class Sig {
 	 * @param int $characterCode
 	 * @return boolean
 	 */
-	public function Create( $sigId, $playerId, $bnetServerNum, $playerAccount, $sigBackgroundIndex=1,
+	public static function Create( $sigId, $playerId, $bnetServerNum, $playerAccount, $sigBackgroundIndex=1,
 		$playerStatsIndex, $lang, $region, $characterCode ) {
 		
 		// ник
@@ -155,7 +155,7 @@ class Sig {
 			$data,
 			$match );
 		
-		if (  $match[ 1 ][ 0 ] ) {
+		if ( isset( $match[ 1 ][ 0 ] ) ) {
 			$playerRank = $locale[ $lang ][ 'place' ].': '.$match[ 1 ][ 0 ];
 			$tempPlayerData = $match[ 0 ][ 0 ];
 		}
@@ -168,6 +168,9 @@ class Sig {
 		// раса
 		if ( preg_match( '|race-([\w]+)">|si', $data, $match) ) {
 			$playerRace = $match[ 1 ];
+		}
+		else {
+			$playerRace = 'random';
 		}
 		
 		if ( $isPlayerHasRank &&
@@ -198,7 +201,7 @@ class Sig {
 				
 				$wins = $match[ 1 ][ 1 ];
 				
-				if ( $match[ 1] [ 2 ] ) {
+				if ( isset( $match[ 1][ 2 ] ) ) {
 					$lose = $match[ 1 ][ 2 ];
 					$playerStats = "$wins / $lose";
 					
@@ -233,30 +236,40 @@ class Sig {
 		// выводим все
 		
 		// первая строка, первый блок
-    	imagettftext( $templateImg, TEXT_FONT_SIZE, 0, 101, 46, $textColor, FONT_STATS_RANK,
-    		$playerRank );
-    	// первая строка, второй блок
-    	imagettftext( $templateImg, TEXT_FONT_SIZE, 0, 162, 46, $textColor, FONT_STATS_RANK,
-    		$playerPoints );
-    		
-    	// вторая строка, первый блок
-    	imagettftext( $templateImg, TEXT_FONT_SIZE, 0, 101, 57, $textColor, FONT_STATS_RANK,
-    		$playerStats );
-    	// вторая строка, второй блок
-		imagettftext( $templateImg, TEXT_FONT_SIZE, 0, 162, 57, $textColor, FONT_STATS_RANK,
-    		$playerWinRate );
+		if ( isset( $playerRank ) ) {
+			imagettftext( $templateImg, TEXT_FONT_SIZE, 0, 101, 46, $textColor, FONT_STATS_RANK,
+				$playerRank );
+		}
+		// первая строка, второй блок
+		if ( isset( $playerPoints ) ) {
+			imagettftext( $templateImg, TEXT_FONT_SIZE, 0, 162, 46, $textColor, FONT_STATS_RANK,
+				$playerPoints );
+		}
+		// вторая строка, первый блок
+		if ( isset( $playerStats ) ) {
+			imagettftext( $templateImg, TEXT_FONT_SIZE, 0, 101, 57, $textColor, FONT_STATS_RANK,
+				$playerStats );
+		}
+		// вторая строка, второй блок
+		if ( isset( $playerWinRate ) ) {
+			imagettftext( $templateImg, TEXT_FONT_SIZE, 0, 162, 57, $textColor, FONT_STATS_RANK,
+					$playerWinRate );
+		}
 		
 		$box_nik = imagettfbbox( 11, 0, $fontAccount, $playerAccount );
 
 		// 237 - 12 - $box_nik[ 2 ] = 225 - $box_nik[ 2 ]
 		imagettftext( $templateImg, 11, 0, 223 - $box_nik[ 2 ], $playerAccountY, $textColor,
 			$fontAccount, $playerAccount );
-
-		imagettftext( $templateImg, 9, 0, 302, 19, $textColor, FONT_ACHIEVEMENTS,
-			$playerAchievements );
-		imagettftext( $templateImg, 9, 0, 320, 51, $textColor, FONT_ACHIEVEMENTS,
-			$playerStatsType );
 		
+		if ( isset( $playerAchievements ) ) {
+			imagettftext( $templateImg, 9, 0, 302, 19, $textColor, FONT_ACHIEVEMENTS,
+				$playerAchievements );
+		}
+		if ( isset( $playerStatsType ) ) {
+			imagettftext( $templateImg, 9, 0, 320, 51, $textColor, FONT_ACHIEVEMENTS,
+				$playerStatsType );
+		}
 		if ( $characterCode ) {
 			imagettftext( $templateImg, 8, 0, 191, 31, $textColor, FONT_STATS_RANK,
 				' ID: '.$characterCode );
@@ -289,7 +302,7 @@ class Sig {
 
 
 	// выбор соответствующего цвета для фоновой картинки
-	private function SelectTextColorAndBnetIdTplByBackgroundIndex( $imgResource, $backgroundIndex ) {
+	private static function SelectTextColorAndBnetIdTplByBackgroundIndex( $imgResource, $backgroundIndex ) {
 		if ( 0 < $backgroundIndex && $backgroundIndex <= 25 ||
 			101 <= $backgroundIndex && $backgroundIndex <= 110 ) {
 			$red = 70;

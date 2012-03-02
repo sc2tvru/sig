@@ -83,10 +83,12 @@ switch( $_GET[ 'region' ] ) {
 $characterCode = intval( $_GET[ 'characterCode' ] );
 
 require_once 'config.php';
-
-// узнаем sigId
+require_once 'utils.php';
 require_once 'db.php';
 
+$db = new MySqlDb( DB_HOST, DB_NAME, DB_USER, DB_PASSWORD );
+
+// узнаем sigId
 // сначала нужно проверить, есть ли такой игрок в базе
 $queryString = 'SELECT sigId FROM '.DB_TABLE_PREFIX.'data WHERE playerId="'.$playerId.'"';
 $queryResult = $db->Query( $queryString );

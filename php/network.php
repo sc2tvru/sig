@@ -29,15 +29,21 @@ class Network {
 	 * @param string $cookie
 	 * @return string
 	 */
-	public function GetHTTPData( $uri, $startSeparator ='', $endSeparator = '',
+	public static function GetHTTPData( $uri, $startSeparator ='', $endSeparator = '',
 		$cookie = '' ) {
 
 		$url_info = @parse_url( $uri );
 		$domain = $url_info[ 'host' ];
-		$path = $url_info[ 'path' ].'?'.$url_info[ 'query' ];
-		$port = $url_info[ 'port' ];
-
-		if ( !$port ) {
+		$path = $url_info[ 'path' ];
+		
+		if ( isset( $url_info[ 'query' ] ) ) {
+		 $path .= '?' . $url_info[ 'query' ];
+		}
+		
+		if ( isset( $url_info[ 'port' ] ) && $url_info[ 'port' ] > 0 ) {
+		 $port = $url_info[ 'port' ];
+		}
+		else {
 			$port = 80;
 		}
 
@@ -116,7 +122,7 @@ class Network {
 
 
 	// подготовка регулярки
-	private function RegExpPrepare( $string ) {
+	private static function RegExpPrepare( $string ) {
 		if ( $string === '' ) {
 			return false;
 		}
@@ -160,7 +166,7 @@ class Network {
 	}
 
 	// преобразование строки из одной кодировки в другую
-	private function ConvertEncoding( $string, $toEncoding, $fromEncoding ) {
+	private static function ConvertEncoding( $string, $toEncoding, $fromEncoding ) {
 		$string = mb_convert_encoding( $string, $toEncoding, $fromEncoding );
 		return $string;
 	}
