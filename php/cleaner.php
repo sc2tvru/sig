@@ -1,10 +1,12 @@
 <?php
 require_once 'config.php';
+require_once 'utils.php';
 require_once 'db.php';
 
 // время жизни необновляемого бара
 define( 'SIG_TTL', 259200 );
-error_reporting( E_ALL );
+
+$db = new MySqlDb( DB_HOST, DB_NAME, DB_USER, DB_PASSWORD );
 
 $queryString = 'DELETE FROM '.DB_TABLE_PREFIX.'data WHERE ';
 
