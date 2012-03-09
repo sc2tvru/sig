@@ -8,7 +8,7 @@ if ( LOG_ERRORS ) {
 }
 
 
-function ChatErrorHandler( $errno = '', $errstr = '', $errfile = '', $errline = ''  ) {
+function ErrorHandler( $errno = '', $errstr = '', $errfile = '', $errline = ''  ) {
 	$logFile = fopen( ERROR_FILE, 'a' );
 	
 	if ( flock( $logFile, LOCK_EX | LOCK_NB ) ) {
