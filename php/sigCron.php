@@ -17,7 +17,7 @@ require_once 'db.php';
 $db = new MySqlDb( DB_HOST, DB_NAME, DB_USER, DB_PASSWORD );
 
 // для того, чтобы знать, надо ли начинать следующий заход генерации, 
-// определяем номер бара, с которого начнем
+// определяем sigId последнего сгенерированного бара
 $queryString = 'SELECT value FROM '.DB_TABLE_PREFIX.'options where name="lastSigId"';
 $queryResult = $db->Query( $queryString );
 
@@ -26,11 +26,11 @@ if ( !$queryResult ) {
 }
 
 if ( $queryResult->num_rows == 0 ) {
-	$startSigId = 0;
+	$lastGeneratedSigId = 0;
 }
 else {
 	$row = $queryResult->fetch_assoc();
-	$startSigId = intval( $row[ 'value' ] );
+	$lastGeneratedSigId = intval( $row[ 'value' ] );
 }
 
 // и определяем диапазон баров
@@ -46,21 +46,21 @@ $maxSigId = $row[ 'maxSigId' ];
 $minSigId = $row[ 'minSigId' ];
 
 // если номер вышел за границы, начинаем заново
-if ( $startSigId < $minSigId || $startSigId > $maxSigId ) {
+if ( $lastGeneratedSigId < $minSigId || $lastGeneratedSigId >= $maxSigId ) {
 	echo "restart\n";
 	// на 1 меньше, чтобы захватить 1й
-	$startSigId = $minSigId - 1;
+	$lastGeneratedSigId = $minSigId - 1;
 }
 
 require_once 'sig.php';
 $sigUpdatedCount = 0;
-CreateSigBatch( $startSigId, NUM_SIG );
+CreateSigBatch( $lastGeneratedSigId, NUM_SIG );
 
 // генерация пачки баров
-function CreateSigBatch( $startSigId, $sigCount ) {
+function CreateSigBatch( $lastGeneratedSigId, $sigCount ) {
 	global $db, $sigUpdatedCount;
 	
-	$queryString = 'SELECT * FROM '.DB_TABLE_PREFIX."data WHERE sigId > $startSigId ORDER BY sigId LIMIT $sigCount";
+	$queryString = 'SELECT * FROM '.DB_TABLE_PREFIX."data WHERE sigId > $lastGeneratedSigId ORDER BY sigId LIMIT $sigCount";
 	$queryResult = $db->Query( $queryString );
 	
 	if ( $queryResult->num_rows == 0 ) {
@@ -86,29 +86,29 @@ function CreateSigBatch( $startSigId, $sigCount ) {
 			$sigUpdatedCount++;
 		}
 		else {
-			SaveNextNum( $startSigId, $userSig[ 'sigId' ] );
+			SaveNextNum( $lastGeneratedSigId, $userSig[ 'sigId' ] );
 			exit;
 		}
 		
 		$lastSigId = $userSig[ 'sigId' ];
 	}
 	
-	SaveNextNum( $startSigId, $lastSigId );
+	SaveNextNum( $lastGeneratedSigId, $lastSigId );
 }
 
 
-function SaveNextNum( $startSigId, $lastSigId = 0 ) {
+function SaveNextNum( $lastGeneratedSigId, $lastSigId = 0 ) {
 	global $sigUpdatedCount, $db;
 	
 	if ( $lastSigId == 0 ) {
-		$lastSigId = $startSigId + $sigUpdatedCount;
+		$lastSigId = $lastGeneratedSigId + $sigUpdatedCount;
 	}
 	
 	$queryString = "UPDATE ".DB_TABLE_PREFIX."options SET value='$lastSigId'
 		WHERE name='lastSigId'";
 	$result = $db->Query( $queryString );
 	
-	echo $sigUpdatedCount.' '.date( 'H:i', time() ).' '.$_SERVER[ REMOTE_ADDR ]. ' lastSigId = '. $lastSigId;
+	echo $sigUpdatedCount.' '.date( 'H:i', time() ).' lastSigId = '. $lastSigId;
 }
 
 
