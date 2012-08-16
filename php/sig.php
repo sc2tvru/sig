@@ -193,22 +193,23 @@ class Sig {
 				$leagueImg = 'none';
 			}
 			
-			preg_match( '|id="current-rank"(.*?)tr class|si', $data, $match );
-			$data = $match[ 1 ];
-			
-			if ( preg_match_all( '|<td class="align-center">([\d]+)</td>|si', $data, $match ) ){
-				$playerPoints = $locale[ $lang ][ 'points' ].': '.$match[ 1 ][ 0 ];
+			if ( preg_match( '|id="current-rank"(.*?)tr class|si', $data, $match ) ) {
+				$data = $match[ 1 ];
 				
-				$wins = $match[ 1 ][ 1 ];
-				
-				if ( isset( $match[ 1][ 2 ] ) ) {
-					$lose = $match[ 1 ][ 2 ];
-					$playerStats = "$wins / $lose";
+				if ( preg_match_all( '|<td class="align-center">([\d]+)</td>|si', $data, $match ) ){
+					$playerPoints = $locale[ $lang ][ 'points' ].': '.$match[ 1 ][ 0 ];
 					
-					$playerWinRate = round( $wins*100/( $wins + $lose ) ).' %';
-				}
-				else {
-					$playerStats = $locale[ $lang ][ 'wins' ].': '.$wins;
+					$wins = $match[ 1 ][ 1 ];
+					
+					if ( isset( $match[ 1][ 2 ] ) ) {
+						$lose = $match[ 1 ][ 2 ];
+						$playerStats = "$wins / $lose";
+						
+						$playerWinRate = round( $wins*100/( $wins + $lose ) ).' %';
+					}
+					else {
+						$playerStats = $locale[ $lang ][ 'wins' ].': '.$wins;
+					}
 				}
 			}
 		}
