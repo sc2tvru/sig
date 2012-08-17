@@ -86,8 +86,10 @@ class Sig {
 		
 		$playerAccountUrl = urlencode( $playerAccount );
 		
+		$relativePlayerAccountUrl = "/sc2/en/profile/$playerId/$bnetServerNum/$playerAccountUrl/";
+		
 		$data = Network::GetHTTPData(
-			"http://$bnetSubDomain.battle.net/sc2/en/profile/$playerId/$bnetServerNum/$playerAccountUrl/",
+			"http://$bnetSubDomain.battle.net" . $relativePlayerAccountUrl . 'ladder/',
 			'id="portrait',
 			'class="module-right'
 		);
@@ -146,37 +148,28 @@ class Sig {
 			$portraitX = abs( $match[ 2 ]*PORTRAIT_KOEFICENT );
 			$portraitY = abs( $match[ 3 ]*PORTRAIT_KOEFICENT );
 		}
-
-		// место
-		$isPlayerHasRank = true;
-		preg_match_all(
-			'#best-team-'.( $playerStatsIndex + 1 ).'.*?Highest Ranked in '
-			.$playerStatsType.'.*?Rank:</strong> ([\d]+)#si',
-			$data,
-			$match );
 		
-		if ( isset( $match[ 1 ][ 0 ] ) ) {
-			$playerRank = $locale[ $lang ][ 'place' ].': '.$match[ 1 ][ 0 ];
-			$tempPlayerData = $match[ 0 ][ 0 ];
+		if ( preg_match(
+			'#<a class="league" href="([\d]+)\#current-rank">[\w\s]+<strong>'.$playerStatsType.'</strong>.*?<a href="'. $relativePlayerAccountUrl . '"[\s]+class="race-([\w]+)".*?Rank[\s]+([\d]+)#si',
+			$data,
+			$match ) ) {
+			$currentRankUrl = $match[ 1 ];
+			// место
+			$isPlayerHasRank = true;
+			$playerRank = $locale[ $lang ][ 'place' ].': '.$match[ 3 ];
+			// раса
+			$playerRace = $match[ 2 ];
 		}
 		else {
 			$playerStats = '  '.$playerStatsType.$locale[ $lang ][ 'notRanked' ];
 			$leagueImg = 'none';
 			$isPlayerHasRank = false;
-		}
-		
-		// раса
-		if ( preg_match( '|race-([\w]+)">|si', $data, $match) ) {
-			$playerRace = $match[ 1 ];
-		}
-		else {
 			$playerRace = 'random';
 		}
 		
-		if ( $isPlayerHasRank &&
-			preg_match_all( '|<a href="([^"]+)">|si', $tempPlayerData, $match ) ) {
+		if ( $isPlayerHasRank ) {
 			$data = Network::GetHTTPData(
-				'http://' . $bnetSubDomain . '.battle.net'.$match[ 1 ][ 0 ],
+				'http://' . $bnetSubDomain . '.battle.net'. $relativePlayerAccountUrl . 'ladder/'. $currentRankUrl,
 				'<head.*>',
 				'id="current-rank".*?tr class="row2"');
 			
