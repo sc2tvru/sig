@@ -2,7 +2,6 @@
 /**
  * шлюз для мастера для создания картинки
  * потом картинки генерируются по крону скриптом sigCron.php
- * редакция от 2011-04-14
  * @author shr, forshr@gmail.com
  */
 
@@ -18,7 +17,7 @@ if ( $posRefferer === false ) {
 
 $playerId =  intval( $_GET[ 'playerId' ] );
 $bnetServerNum = intval( $_GET[ 'bnetServerNum' ] );
-$playerAccount = preg_replace( '/([^\w\dа-яА-Я])/ui', '', urldecode( $_GET[ 'playerAccount' ] ) );
+$playerAccount = preg_replace( '/([^\w\dа-яА-Я]ǂ)/ui', '', urldecode( $_GET[ 'playerAccount' ] ) );
 
 $sigBackgroundIndex = intval( $_GET[ 'sigBackgroundIndex' ] );
 

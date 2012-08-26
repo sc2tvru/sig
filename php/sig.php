@@ -44,7 +44,7 @@ class Sig {
 		$playerStatsIndex, $lang, $region, $characterCode ) {
 		
 		// ник
-		preg_match( '/[^a-z0-9\-]*/ui', $playerAccount, $match );
+		preg_match( '/[^a-z0-9\-ǂ]*/ui', $playerAccount, $match );
 		if ( $match[ 0 ] ) {
 			// с русскими символами
 			$fontAccount = 'calibri.ttf';
@@ -87,6 +87,7 @@ class Sig {
 		$playerAccountUrl = urlencode( $playerAccount );
 		
 		$relativePlayerAccountUrl = "/sc2/en/profile/$playerId/$bnetServerNum/$playerAccountUrl/";
+		$relativePlayerAccountUrlForRegExp = "/sc2/en/profile/$playerId/$bnetServerNum/$playerAccount/";
 		
 		$data = Network::GetHTTPData(
 			"http://$bnetSubDomain.battle.net" . $relativePlayerAccountUrl . 'ladder/',
@@ -150,7 +151,7 @@ class Sig {
 		}
 		
 		if ( preg_match(
-			'#<a class="league" href="([\d]+)\#current-rank">[\w\s]+<strong>'.$playerStatsType.'</strong>.*?<a href="'. $relativePlayerAccountUrl . '"[\s]+class="race-([\w]+)".*?Rank[\s]+([\d]+)#si',
+			'#<a class="league" href="([\d]+)\#current-rank">[\w\s]+<strong>'.$playerStatsType.'</strong>.*?<a href="'. $relativePlayerAccountUrlForRegExp . '"[\s]+class="race-([\w]+)".*?Rank[\s]+([\d]+)#si',
 			$data,
 			$match ) ) {
 			$currentRankUrl = $match[ 1 ];
