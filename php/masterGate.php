@@ -17,7 +17,7 @@ if ( $posRefferer === false ) {
 
 $playerId =  intval( $_GET[ 'playerId' ] );
 $bnetServerNum = intval( $_GET[ 'bnetServerNum' ] );
-$playerAccount = preg_replace( '/([^\w\dа-яА-Я]ǂ)/ui', '', urldecode( $_GET[ 'playerAccount' ] ) );
+$playerAccount = preg_replace( '/[^\w\dа-яА-Яǂ]/ui', '', urldecode( $_GET[ 'playerAccount' ] ) );
 
 $sigBackgroundIndex = intval( $_GET[ 'sigBackgroundIndex' ] );
 
