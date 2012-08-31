@@ -13,9 +13,9 @@
  *
  */
 // Ачивки
-define( 'FONT_ACHIEVEMENTS', 'eurostile_ext_med.otf' );
+define( 'FONT_ACHIEVEMENTS', SIG_BASEDIR .'php/eurostile_ext_med.otf' );
 // Статс и ранк
-define( 'FONT_STATS_RANK', 'calibri.ttf' );
+define( 'FONT_STATS_RANK', SIG_BASEDIR. 'php/calibri.ttf' );
 // размер шрифта текста
 define( 'TEXT_FONT_SIZE', 8 );
 // отношение стороны нашего шаблона портретов к тому, что на bnet
@@ -52,6 +52,8 @@ class Sig {
 		else {
 			$fontAccount = 'eurostile_ext_med.otf';
 		}
+		
+		$fontAccount = SIG_BASEDIR .'php/'. $fontAccount;
 		// echo $playerAccount.' '.$fontAccount."\n";
 		
 		// языки \ локали

@@ -47,7 +47,8 @@ $minSigId = $row[ 'minSigId' ];
 
 // если номер вышел за границы, начинаем заново
 if ( $lastGeneratedSigId < $minSigId || $lastGeneratedSigId >= $maxSigId ) {
-	echo "restart\n";
+	echo "restart generation\n";
+	SaveForDebug( "restart generation\n" );
 	// на 1 меньше, чтобы захватить 1й
 	$lastGeneratedSigId = $minSigId - 1;
 }
@@ -69,6 +70,8 @@ function CreateSigBatch( $lastGeneratedSigId, $sigCount ) {
 	
 	$lastSigId = 0;
 	
+	$debugOutput = '';
+	
 	while ( $userSig = $queryResult->fetch_assoc() ) {
 		if ( IsTimeEnough() ) {
 			$isSigCreated = Sig::Create(
@@ -82,22 +85,21 @@ function CreateSigBatch( $lastGeneratedSigId, $sigCount ) {
 				$userSig[ 'region' ],
 				$userSig[ 'characterCode' ]
 			);
-			echo $userSig[ 'sigId' ]. "\n";
+			
+			$debugOutput .= $userSig[ 'sigId' ]. "\n";
 			$sigUpdatedCount++;
+			$lastSigId = $userSig[ 'sigId' ];
 		}
 		else {
-			SaveNextNum( $lastGeneratedSigId, $userSig[ 'sigId' ] );
-			exit;
+			break;
 		}
-		
-		$lastSigId = $userSig[ 'sigId' ];
 	}
 	
-	SaveNextNum( $lastGeneratedSigId, $lastSigId );
+	SaveNextNum( $lastGeneratedSigId, $lastSigId, $debugOutput );
 }
 
 
-function SaveNextNum( $lastGeneratedSigId, $lastSigId = 0 ) {
+function SaveNextNum( $lastGeneratedSigId, $lastSigId = 0, $debugOutput ) {
 	global $sigUpdatedCount, $db;
 	
 	if ( $lastSigId == 0 ) {
@@ -108,7 +110,9 @@ function SaveNextNum( $lastGeneratedSigId, $lastSigId = 0 ) {
 		WHERE name='lastSigId'";
 	$result = $db->Query( $queryString );
 	
-	echo $sigUpdatedCount.' '.date( 'H:i', time() ).' lastSigId = '. $lastSigId;
+	$debugOutput .= $sigUpdatedCount.' '.date( 'H:i', time() ).' lastSigId = '. $lastSigId;
+	echo $debugOutput;
+	SaveForDebug( $debugOutput );
 }
 
 
