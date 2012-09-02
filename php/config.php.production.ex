@@ -26,6 +26,9 @@ define( 'TIME_LIMIT', 30 );
 */
 define( 'DB_TIME_LIMIT', 4 );
 
+// время жизни необновляемого бара в секундах, после которого он будет удален
+define( 'SIG_TTL', 259200 );
+
 // сброс ошибок в log true
 define( 'LOG_ERRORS', true );
 define( 'ERROR_FILE', SIG_BASEDIR . 'php/____error_5hshs5hs5h.txt' );
