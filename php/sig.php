@@ -151,6 +151,10 @@ class Sig {
 			$portraitX = abs( $match[ 2 ]*PORTRAIT_KOEFICENT );
 			$portraitY = abs( $match[ 3 ]*PORTRAIT_KOEFICENT );
 		}
+		else {
+			SaveForDebug( "portraitImg is empty, http://$bnetSubDomain.battle.net" . $relativePlayerAccountUrl . 'ladder/' );
+			return FALSE;
+		}
 		
 		if ( preg_match(
 			'#<a class="league" href="([\d]+)\#current-rank">[\w\s]+<strong>'.$playerStatsType.'</strong>.*?<a href="'. $relativePlayerAccountUrlForRegExp . '"[\s]+class="race-([\w]+)".*?Rank[\s]+([\d]+)#si',
