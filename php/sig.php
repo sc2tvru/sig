@@ -78,7 +78,7 @@ class Sig {
 		if ( $region === 'US' || $region === 'KR' ) {
 			$bnetSubDomain = strtolower( $region );
 		}
-		elseif ( $region == 0 ) {
+		elseif ( $region === 0 ) {
 			$region = false;
 		}
 		
@@ -157,7 +157,7 @@ class Sig {
 		}
 		
 		if ( preg_match(
-			'#<a class="league" href="([\d]+)\#current-rank">[\w\s]+<strong>'.$playerStatsType.'</strong>.*?<a href="'. $relativePlayerAccountUrlForRegExp . '"[\s]+class="race-([\w]+)".*?Rank[\s]+([\d]+)#si',
+			'#<a class="league" href="([\d]+)\#current-rank">[\w\s]+<strong>'.$playerStatsType.'[\w\s]*</strong>.*?<a href="'. $relativePlayerAccountUrlForRegExp . '"[\s]+class="race-([\w]+)".*?Rank[\s]+([\d]+)#si',
 			$data,
 			$match ) ) {
 			$currentRankUrl = $match[ 1 ];
