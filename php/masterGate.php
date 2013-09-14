@@ -2,7 +2,6 @@
 /**
  * шлюз для мастера для создания картинки
  * потом картинки генерируются по крону скриптом sigCron.php
- * @author shr, forshr@gmail.com
  */
 
 //error_reporting( 0 );

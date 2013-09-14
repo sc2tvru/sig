@@ -7,10 +7,7 @@
 
 /**
  * Генерация картинок со статистикой StarCraft 2
- * @author MyIE
- * @author shr, forshr@gmail.com
- * редакция 2011-11-14
- *
+ * @author MyIE, shr
  */
 // Ачивки
 define( 'FONT_ACHIEVEMENTS', SIG_BASEDIR .'php/eurostile_ext_med.otf' );
